@@ -1,0 +1,927 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Jabra Elite 75t — Premium Wireless Earbuds</title>
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=DM+Sans:wght@300;400;500&family=DM+Serif+Display:ital@0;1&display=swap" rel="stylesheet">
+
+<style>
+/* ── COLOR SYSTEM ── */
+:root {
+  /* Primary palette — fire/ember */
+  --fire:      #ff3c00;
+  --ember:     #ff6a00;
+  --spark:     #ffae00;
+
+  /* Neutrals — coal scale */
+  --coal:      #0d0d0d;
+  --ash:       #141414;
+  --smoke:     #1e1e1e;
+  --cinder:    #2a2a2a;
+  --fog:       #3d3d3d;
+
+  /* Text */
+  --white:     #ffffff;
+  --mist:      rgba(255,255,255,0.65);
+  --dusk:      rgba(255,255,255,0.35);
+  --ghost:     rgba(255,255,255,0.12);
+
+  /* Glow helpers */
+  --glow-sm:   0 0 20px rgba(255,60,0,0.25);
+  --glow-md:   0 0 50px rgba(255,60,0,0.35);
+  --glow-lg:   0 0 90px rgba(255,60,0,0.25);
+
+  /* Borders */
+  --border-fire: rgba(255,60,0,0.25);
+  --border-dim:  rgba(255,255,255,0.07);
+}
+
+*, *::before, *::after { margin:0; padding:0; box-sizing:border-box; }
+html { scroll-behavior: smooth; }
+
+body {
+  font-family: 'DM Sans', sans-serif;
+  background: var(--coal);
+  color: var(--white);
+  overflow-x: hidden;
+  cursor: none;
+}
+
+/* ── CUSTOM CURSOR ── */
+.cursor {
+  position: fixed; pointer-events: none; z-index: 9999;
+  width: 10px; height: 10px;
+  background: var(--fire);
+  border-radius: 50%;
+  transform: translate(-50%,-50%);
+  transition: transform .08s, background .2s;
+  mix-blend-mode: screen;
+}
+.cursor-ring {
+  position: fixed; pointer-events: none; z-index: 9998;
+  width: 36px; height: 36px;
+  border: 1.5px solid var(--fire);
+  border-radius: 50%;
+  transform: translate(-50%,-50%);
+  transition: width .25s, height .25s, transform .15s ease-out, opacity .3s;
+  opacity: .5;
+}
+body:hover .cursor-ring { opacity: 1; }
+body a:hover ~ .cursor,
+body button:hover ~ .cursor { transform: translate(-50%,-50%) scale(2.5); }
+
+/* ── NOISE TEXTURE OVERLAY ── */
+body::before {
+  content: '';
+  position: fixed; inset: 0; z-index: 0; pointer-events: none;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.04'/%3E%3C/svg%3E");
+  opacity: .45;
+}
+
+/* ── NAV ── */
+nav {
+  position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+  display: flex; align-items: center; justify-content: space-between;
+  padding: 22px 60px;
+  background: rgba(13,13,13,0.8);
+  backdrop-filter: blur(20px);
+  border-bottom: 1px solid var(--border-fire);
+  animation: navDrop .6s ease both;
+}
+
+@keyframes navDrop {
+  from { transform: translateY(-100%); opacity: 0; }
+  to   { transform: translateY(0);     opacity: 1; }
+}
+
+.nav-logo {
+  font-family: 'Bebas Neue', sans-serif;
+  font-size: 28px; letter-spacing: 4px;
+  color: var(--fire);
+  text-shadow: var(--glow-sm);
+  position: relative;
+}
+
+.nav-logo::after {
+  content: '';
+  position: absolute; bottom: -4px; left: 0;
+  width: 100%; height: 1px;
+  background: linear-gradient(90deg, var(--fire), transparent);
+}
+
+nav ul { display: flex; gap: 36px; list-style: none; }
+nav a {
+  text-decoration: none;
+  color: var(--dusk);
+  font-size: 11px; font-weight: 500;
+  letter-spacing: 2px; text-transform: uppercase;
+  position: relative;
+  transition: color .25s;
+}
+nav a::after {
+  content: '';
+  position: absolute; bottom: -3px; left: 0;
+  width: 0; height: 1px;
+  background: var(--fire);
+  transition: width .3s ease;
+}
+nav a:hover { color: var(--fire); }
+nav a:hover::after { width: 100%; }
+
+/* ── HERO ── */
+.hero {
+  min-height: 100vh;
+  display: grid; grid-template-columns: 1fr 1fr;
+  align-items: center;
+  padding: 140px 60px 80px;
+  position: relative; overflow: hidden;
+}
+
+/* Animated background rings */
+.hero-bg {
+  position: absolute; inset: 0; pointer-events: none; overflow: hidden;
+}
+.ring {
+  position: absolute; border-radius: 50%; border: 1px solid;
+  transform: translate(-50%,-50%);
+  animation: ringPulse var(--dur, 4s) ease-in-out infinite;
+}
+.ring:nth-child(1) { width:300px; height:300px; top:50%; left:70%; border-color: rgba(255,60,0,0.12); --dur: 3.5s; }
+.ring:nth-child(2) { width:500px; height:500px; top:50%; left:70%; border-color: rgba(255,60,0,0.08); --dur: 4.5s; animation-delay: -.8s; }
+.ring:nth-child(3) { width:700px; height:700px; top:50%; left:70%; border-color: rgba(255,60,0,0.05); --dur: 5.5s; animation-delay: -1.6s; }
+.ring:nth-child(4) { width:900px; height:900px; top:50%; left:70%; border-color: rgba(255,60,0,0.03); --dur: 6.5s; animation-delay: -2.4s; }
+
+@keyframes ringPulse {
+  0%,100% { transform: translate(-50%,-50%) scale(1);   opacity: 1; }
+  50%      { transform: translate(-50%,-50%) scale(1.06); opacity: .5; }
+}
+
+/* Scanline divider */
+.hero::after {
+  content: '';
+  position: absolute; left: calc(50% - 80px); top: 12%; bottom: 12%;
+  width: 1px;
+  background: linear-gradient(to bottom, transparent, var(--border-fire) 30%, var(--border-fire) 70%, transparent);
+}
+
+/* HERO TEXT */
+.hero-badge {
+  display: inline-flex; align-items: center; gap: 8px;
+  font-size: 10px; font-weight: 500; letter-spacing: 2.5px;
+  text-transform: uppercase; color: var(--fire);
+  border: 1px solid var(--border-fire);
+  padding: 6px 16px; border-radius: 20px;
+  margin-bottom: 28px;
+  background: rgba(255,60,0,0.06);
+  animation: fadeUp .7s ease both;
+}
+
+.hero-badge .dot {
+  width: 6px; height: 6px; border-radius: 50%;
+  background: var(--fire);
+  box-shadow: 0 0 8px var(--fire);
+  animation: blink 1.4s ease-in-out infinite;
+}
+@keyframes blink { 0%,100%{opacity:1} 50%{opacity:.2} }
+
+.hero h1 {
+  font-family: 'Bebas Neue', sans-serif;
+  font-size: clamp(72px,8vw,116px);
+  line-height: .9; letter-spacing: 2px;
+  animation: fadeUp .7s .1s ease both;
+}
+.hero h1 em {
+  font-family: 'DM Serif Display', serif;
+  font-style: italic; color: var(--fire);
+  display: block;
+  text-shadow: 0 0 60px rgba(255,60,0,0.4);
+  animation: flicker 6s ease-in-out infinite;
+}
+
+@keyframes flicker {
+  0%,94%,98%,100% { opacity: 1; text-shadow: 0 0 60px rgba(255,60,0,0.4); }
+  95%             { opacity: .85; text-shadow: 0 0 30px rgba(255,60,0,0.2); }
+  97%             { opacity: .9; }
+}
+
+.hero-sub {
+  font-size: 15px; font-weight: 300; color: var(--mist);
+  line-height: 1.8; max-width: 380px;
+  margin: 24px 0 40px;
+  animation: fadeUp .7s .2s ease both;
+}
+
+.hero-cta {
+  display: flex; gap: 16px; align-items: center;
+  animation: fadeUp .7s .3s ease both;
+}
+
+/* ── BUTTONS ── */
+.btn-primary {
+  padding: 14px 36px;
+  background: var(--fire);
+  color: var(--white);
+  border-radius: 40px;
+  text-decoration: none; font-weight: 500;
+  font-size: 13px; letter-spacing: .8px; text-transform: uppercase;
+  position: relative; overflow: hidden;
+  transition: transform .2s, box-shadow .2s;
+  box-shadow: 0 0 0 rgba(255,60,0,0);
+}
+.btn-primary::before {
+  content: '';
+  position: absolute; top: 0; left: -100%;
+  width: 100%; height: 100%;
+  background: linear-gradient(90deg, transparent, rgba(255,255,255,0.2), transparent);
+  transition: left .5s ease;
+}
+.btn-primary:hover::before { left: 100%; }
+.btn-primary:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 16px 50px rgba(255,60,0,0.5);
+}
+
+.btn-ghost {
+  padding: 14px 28px;
+  border: 1px solid rgba(255,255,255,0.18);
+  color: var(--mist);
+  border-radius: 40px;
+  text-decoration: none; font-size: 13px;
+  letter-spacing: .5px; text-transform: uppercase;
+  transition: border-color .25s, color .25s, box-shadow .25s;
+}
+.btn-ghost:hover {
+  border-color: var(--fire);
+  color: var(--fire);
+  box-shadow: 0 0 20px rgba(255,60,0,0.15) inset;
+}
+
+/* ── HERO IMAGE ── */
+.hero-visual {
+  display: flex; align-items: center; justify-content: center;
+  position: relative;
+  animation: floatIn .9s .2s ease both;
+}
+
+.hero-visual::before {
+  content: '';
+  position: absolute;
+  width: 420px; height: 420px; border-radius: 50%;
+  background: radial-gradient(circle, rgba(255,106,0,0.2) 0%, transparent 68%);
+  animation: breathe 4s ease-in-out infinite;
+}
+
+@keyframes breathe {
+  0%,100% { transform: scale(1); opacity: .8; }
+  50%      { transform: scale(1.1); opacity: 1; }
+}
+
+.hero-visual img {
+  width: 360px; position: relative;
+  filter: drop-shadow(0 24px 70px rgba(255,60,0,0.5));
+  animation: float 5s ease-in-out infinite;
+  transition: filter .3s;
+}
+.hero-visual img:hover {
+  filter: drop-shadow(0 24px 90px rgba(255,106,0,0.7));
+}
+
+/* Orbit particle */
+.orbit {
+  position: absolute;
+  width: 460px; height: 460px;
+  border-radius: 50%;
+  animation: spin 12s linear infinite;
+  pointer-events: none;
+}
+.orbit::before {
+  content: '';
+  position: absolute; top: 0; left: 50%;
+  width: 8px; height: 8px; margin-left: -4px; margin-top: -4px;
+  background: var(--ember);
+  border-radius: 50%;
+  box-shadow: 0 0 12px var(--ember);
+}
+.orbit-2 {
+  width: 520px; height: 520px;
+  animation: spin 18s linear infinite reverse;
+}
+.orbit-2::before {
+  width: 5px; height: 5px; margin-left: -2.5px; margin-top: -2.5px;
+  background: var(--spark);
+  box-shadow: 0 0 8px var(--spark);
+}
+
+@keyframes spin { from { transform: rotate(0deg); } to { transform: rotate(360deg); } }
+
+/* ── STATS BAR ── */
+.stats-bar {
+  display: flex;
+  border-top: 1px solid var(--border-dim);
+  border-bottom: 1px solid var(--border-dim);
+  background: var(--ash);
+  position: relative; overflow: hidden;
+}
+
+.stats-bar::before {
+  content: '';
+  position: absolute; top: 0; left: -100%; width: 200%; height: 1px;
+  background: linear-gradient(90deg, transparent, var(--fire), transparent);
+  animation: scanLine 3s ease-in-out infinite;
+}
+@keyframes scanLine { 0% { left: -100%; } 100% { left: 100%; } }
+
+.stat {
+  flex: 1; padding: 32px 40px;
+  border-right: 1px solid var(--border-dim);
+  position: relative; overflow: hidden;
+  transition: background .3s;
+}
+.stat:last-child { border-right: none; }
+.stat::after {
+  content: '';
+  position: absolute; bottom: 0; left: 50%; transform: translateX(-50%);
+  width: 0; height: 2px;
+  background: linear-gradient(90deg, transparent, var(--fire), transparent);
+  transition: width .4s ease;
+}
+.stat:hover { background: rgba(255,60,0,0.06); }
+.stat:hover::after { width: 80%; }
+
+.stat-num {
+  font-family: 'Bebas Neue', sans-serif;
+  font-size: 46px; color: var(--fire); line-height: 1;
+  text-shadow: 0 0 30px rgba(255,60,0,0.3);
+  transition: text-shadow .3s;
+}
+.stat:hover .stat-num { text-shadow: 0 0 50px rgba(255,60,0,0.6); }
+
+.stat-label {
+  font-size: 10px; color: var(--dusk);
+  letter-spacing: 2px; text-transform: uppercase; margin-top: 6px;
+}
+
+/* ── SECTION REVEAL ── */
+.reveal {
+  opacity: 0; transform: translateY(40px);
+  transition: opacity .7s ease, transform .7s ease;
+}
+.reveal.visible { opacity: 1; transform: translateY(0); }
+.reveal-left { opacity: 0; transform: translateX(-40px); transition: opacity .7s ease, transform .7s ease; }
+.reveal-left.visible { opacity: 1; transform: translateX(0); }
+.reveal-right { opacity: 0; transform: translateX(40px); transition: opacity .7s ease, transform .7s ease; }
+.reveal-right.visible { opacity: 1; transform: translateX(0); }
+
+/* stagger children */
+.stagger-children > * { opacity: 0; transform: translateY(30px); transition: opacity .5s ease, transform .5s ease; }
+.stagger-children.visible > *:nth-child(1) { opacity:1; transform:translateY(0); transition-delay: 0s; }
+.stagger-children.visible > *:nth-child(2) { opacity:1; transform:translateY(0); transition-delay: .1s; }
+.stagger-children.visible > *:nth-child(3) { opacity:1; transform:translateY(0); transition-delay: .2s; }
+.stagger-children.visible > *:nth-child(4) { opacity:1; transform:translateY(0); transition-delay: .3s; }
+.stagger-children.visible > *:nth-child(5) { opacity:1; transform:translateY(0); transition-delay: .4s; }
+.stagger-children.visible > *:nth-child(6) { opacity:1; transform:translateY(0); transition-delay: .5s; }
+
+/* ── FEATURES ── */
+.features {
+  padding: 110px 60px;
+  background: var(--ash);
+  position: relative; overflow: hidden;
+}
+
+.features::before {
+  content: '';
+  position: absolute; left: -200px; top: 50%;
+  width: 600px; height: 600px; border-radius: 50%;
+  background: radial-gradient(circle, rgba(255,60,0,0.06), transparent 70%);
+  transform: translateY(-50%);
+  pointer-events: none;
+}
+
+.section-eyebrow {
+  font-size: 10px; letter-spacing: 4px;
+  text-transform: uppercase; color: var(--fire);
+  margin-bottom: 14px;
+  display: flex; align-items: center; gap: 12px;
+}
+.section-eyebrow::before {
+  content: '';
+  display: inline-block; width: 28px; height: 1px;
+  background: var(--fire);
+}
+
+.section-title {
+  font-family: 'DM Serif Display', serif;
+  font-size: clamp(32px, 4vw, 54px);
+  line-height: 1.1; margin-bottom: 64px;
+  max-width: 520px;
+}
+.section-title em { font-style: italic; color: var(--dusk); }
+
+.features-grid {
+  display: grid; grid-template-columns: repeat(3, 1fr);
+  gap: 1px;
+  background: var(--border-dim);
+  border: 1px solid var(--border-dim);
+  border-radius: 4px; overflow: hidden;
+}
+
+.feat-card {
+  background: var(--ash); padding: 48px 38px;
+  position: relative; overflow: hidden;
+  transition: background .35s;
+}
+
+/* top fire line reveal */
+.feat-card::before {
+  content: '';
+  position: absolute; top: 0; left: 0;
+  height: 2px; width: 0;
+  background: linear-gradient(90deg, var(--fire), var(--ember));
+  transition: width .45s ease;
+}
+/* corner glow */
+.feat-card::after {
+  content: '';
+  position: absolute; top: -60px; right: -60px;
+  width: 140px; height: 140px; border-radius: 50%;
+  background: radial-gradient(circle, rgba(255,60,0,0.12), transparent 70%);
+  opacity: 0; transition: opacity .35s;
+}
+
+.feat-card:hover { background: rgba(255,60,0,0.04); }
+.feat-card:hover::before { width: 100%; }
+.feat-card:hover::after { opacity: 1; }
+
+.feat-icon {
+  font-size: 30px; margin-bottom: 22px;
+  display: block;
+  transition: transform .3s;
+}
+.feat-card:hover .feat-icon { transform: scale(1.15) rotate(-5deg); }
+
+.feat-card h3 {
+  font-family: 'Bebas Neue', sans-serif;
+  font-size: 22px; letter-spacing: 1.5px; margin-bottom: 12px;
+  transition: color .25s;
+}
+.feat-card:hover h3 { color: var(--fire); }
+
+.feat-card p {
+  font-size: 13.5px; color: var(--dusk); line-height: 1.75;
+}
+
+/* ── DETAILS / SPECS ── */
+.details {
+  padding: 110px 60px;
+  display: grid; grid-template-columns: 1fr 1fr;
+  gap: 80px; align-items: center;
+}
+
+.details-image {
+  position: relative;
+}
+.details-image::before {
+  content: '';
+  position: absolute; inset: -2px;
+  background: linear-gradient(135deg, rgba(255,60,0,0.6), transparent 55%);
+  border-radius: 22px; opacity: .6;
+  animation: borderGlow 3s ease-in-out infinite;
+}
+@keyframes borderGlow {
+  0%,100% { opacity: .4; }
+  50%      { opacity: .9; }
+}
+.details-image img {
+  width: 100%; border-radius: 20px;
+  position: relative; filter: brightness(.85);
+  transition: filter .4s, transform .4s;
+  transform-origin: center;
+}
+.details-image:hover img {
+  filter: brightness(1);
+  transform: scale(1.02);
+}
+
+.spec-list { margin-top: 38px; }
+.spec-item {
+  display: flex; justify-content: space-between; align-items: center;
+  padding: 18px 0;
+  border-bottom: 1px solid var(--border-dim);
+  position: relative; overflow: hidden;
+  transition: padding-left .3s;
+}
+.spec-item:first-child { border-top: 1px solid var(--border-dim); }
+.spec-item::before {
+  content: '';
+  position: absolute; left: 0; top: 0; bottom: 0;
+  width: 0; background: rgba(255,60,0,0.05);
+  transition: width .35s ease;
+}
+.spec-item:hover { padding-left: 12px; }
+.spec-item:hover::before { width: 100%; }
+
+.spec-key { font-size: 12px; color: var(--dusk); letter-spacing: .5px; }
+.spec-val {
+  font-size: 14px; font-weight: 500; color: var(--white);
+  transition: color .25s;
+}
+.spec-item:hover .spec-val { color: var(--fire); }
+
+/* ── APP SECTION ── */
+.app-section {
+  margin: 0 60px 110px;
+  background: linear-gradient(120deg, #160600, #220b00, #180400);
+  border: 1px solid var(--border-fire);
+  border-radius: 24px; padding: 64px;
+  display: flex; align-items: center;
+  justify-content: space-between; gap: 40px;
+  position: relative; overflow: hidden;
+}
+
+.app-section::before {
+  content: '';
+  position: absolute; right: -140px; top: -140px;
+  width: 480px; height: 480px; border-radius: 50%;
+  background: radial-gradient(circle, rgba(255,60,0,0.14), transparent 70%);
+  animation: breathe 5s ease-in-out infinite;
+}
+
+/* animated diagonal stripe */
+.app-section::after {
+  content: '';
+  position: absolute; inset: 0;
+  background: repeating-linear-gradient(
+    -55deg,
+    transparent 0, transparent 20px,
+    rgba(255,60,0,0.02) 20px, rgba(255,60,0,0.02) 21px
+  );
+  pointer-events: none;
+}
+
+.app-content { max-width: 480px; position: relative; z-index: 1; }
+.app-content h2 {
+  font-family: 'DM Serif Display', serif;
+  font-size: 38px; margin-bottom: 16px; line-height: 1.15;
+}
+.app-content p {
+  font-size: 15px; color: var(--mist); line-height: 1.75; margin-bottom: 32px;
+}
+
+.app-wordmark {
+  font-family: 'Bebas Neue', sans-serif;
+  font-size: 130px; opacity: .07; line-height: 1;
+  letter-spacing: -4px; pointer-events: none;
+  position: relative; z-index: 1;
+  background: linear-gradient(180deg, var(--fire), transparent);
+  -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+  background-clip: text;
+  animation: wordmarkFade 4s ease-in-out infinite;
+}
+@keyframes wordmarkFade {
+  0%,100% { opacity: .07; }
+  50%      { opacity: .12; }
+}
+
+/* ── FOOTER ── */
+footer {
+  border-top: 1px solid var(--border-dim);
+  padding: 32px 60px;
+  display: flex; justify-content: space-between; align-items: center;
+  font-size: 12px; color: var(--dusk);
+  letter-spacing: .5px;
+}
+footer .nav-logo { font-size: 22px; color: var(--fire); }
+
+/* ── KEYFRAMES ── */
+@keyframes fadeUp {
+  from { opacity:0; transform: translateY(28px); }
+  to   { opacity:1; transform: translateY(0); }
+}
+@keyframes floatIn {
+  from { opacity:0; transform: scale(.9) translateY(20px); }
+  to   { opacity:1; transform: scale(1)  translateY(0); }
+}
+@keyframes float {
+  0%,100% { transform: translateY(0px) rotate(.5deg); }
+  50%      { transform: translateY(-16px) rotate(-.5deg); }
+}
+
+/* ── SCROLL PROGRESS ── */
+.progress-bar {
+  position: fixed; top: 0; left: 0; z-index: 200;
+  height: 2px; width: 0%;
+  background: linear-gradient(90deg, var(--fire), var(--spark));
+  box-shadow: 0 0 12px var(--fire);
+  transition: width .1s linear;
+}
+
+/* ── RESPONSIVE ── */
+@media (max-width: 860px) {
+  body { cursor: auto; }
+  .cursor, .cursor-ring { display: none; }
+  nav { padding: 18px 24px; }
+  nav ul { gap: 20px; }
+  .hero { grid-template-columns: 1fr; padding: 120px 24px 60px; text-align: center; }
+  .hero::after { display: none; }
+  .hero-visual { margin-top: 48px; }
+  .hero-cta { justify-content: center; flex-wrap: wrap; }
+  .hero-sub { margin: 22px auto 40px; }
+  .features { padding: 70px 24px; }
+  .features-grid { grid-template-columns: 1fr; }
+  .details { grid-template-columns: 1fr; padding: 60px 24px; gap: 40px; }
+  .stats-bar { flex-wrap: wrap; }
+  .stat { min-width: 50%; border-right: none; border-bottom: 1px solid var(--border-dim); }
+  .app-section { margin: 0 24px 60px; flex-direction: column; padding: 40px 30px; }
+  .app-wordmark { font-size: 72px; }
+  footer { flex-direction: column; gap: 10px; padding: 24px; text-align: center; }
+}
+</style>
+</head>
+<body>
+
+<!-- SCROLL PROGRESS -->
+<div class="progress-bar" id="progress"></div>
+
+<!-- CUSTOM CURSOR -->
+<div class="cursor" id="cursor"></div>
+<div class="cursor-ring" id="cursorRing"></div>
+
+<!-- NAV -->
+<nav>
+  <div class="nav-logo">JABRA</div>
+  <ul>
+    <li><a href="#home">Home</a></li>
+    <li><a href="#features">Features</a></li>
+    <li><a href="#specs">Specs</a></li>
+    <li><a href="#app">App</a></li>
+  </ul>
+</nav>
+
+<!-- HERO -->
+<section class="hero" id="home">
+  <div class="hero-bg">
+    <div class="ring"></div>
+    <div class="ring"></div>
+    <div class="ring"></div>
+    <div class="ring"></div>
+  </div>
+
+  <div class="hero-text">
+    <div class="hero-badge"><span class="dot"></span>True Wireless · 2026</div>
+    <h1>Elite<em>75t</em></h1>
+    <p class="hero-sub">
+      Compact earbuds engineered for immersive sound, aggressive noise cancellation,
+      and an all-day battery that keeps pace with you.
+    </p>
+    <div class="hero-cta">
+      <a href="#specs" class="btn-primary">Explore Specs</a>
+      <a href="#app" class="btn-ghost">Sound+ App ↗</a>
+    </div>
+  </div>
+
+  <div class="hero-visual">
+    <div class="orbit"></div>
+    <div class="orbit orbit-2"></div>
+    <img
+      src="https://assets2.jabra.com/6/b/f/6/6bf69e6dc6a6987c72e363e09b9c29eb211d2f1b_elite75t_titanium_03.png?w=600&h=600&auto=format"
+      alt="Jabra Elite 75t Titanium Black">
+  </div>
+</section>
+
+<!-- STATS BAR -->
+<div class="stats-bar">
+  <div class="stat">
+    <div class="stat-num" data-count="28" data-suffix="h">0h</div>
+    <div class="stat-label">Total Battery Life</div>
+  </div>
+  <div class="stat">
+    <div class="stat-num" data-count-decimal="7.5" data-suffix="h">0h</div>
+    <div class="stat-label">Per Single Charge</div>
+  </div>
+  <div class="stat">
+    <div class="stat-num">ANC</div>
+    <div class="stat-label">Active Noise Cancel</div>
+  </div>
+  <div class="stat">
+    <div class="stat-num">IP55</div>
+    <div class="stat-label">Dust &amp; Sweat Proof</div>
+  </div>
+</div>
+
+<!-- FEATURES -->
+<section class="features" id="features">
+  <p class="section-eyebrow reveal">What sets it apart</p>
+  <h2 class="section-title reveal">Built for the <em>relentless.</em></h2>
+
+  <div class="features-grid stagger-children">
+    <div class="feat-card">
+      <span class="feat-icon">🔋</span>
+      <h3>28 Hr Battery</h3>
+      <p>7.5 hours earbud playback plus 20.5 hours from the compact charging case — all day, every day.</p>
+    </div>
+    <div class="feat-card">
+      <span class="feat-icon">🎧</span>
+      <h3>Active Noise Cancel</h3>
+      <p>Advanced ANC filters traffic, crowds, and office noise so your music and calls are always crystal clear.</p>
+    </div>
+    <div class="feat-card">
+      <span class="feat-icon">📱</span>
+      <h3>Sound+ App</h3>
+      <p>Fine-tune your EQ, adjust ANC intensity, remap controls, and push firmware updates — all from your phone.</p>
+    </div>
+    <div class="feat-card">
+      <span class="feat-icon">🌊</span>
+      <h3>IP55 Rating</h3>
+      <p>Sweat, rain, and dust can't slow you down. Designed to handle whatever your day throws at it.</p>
+    </div>
+    <div class="feat-card">
+      <span class="feat-icon">📡</span>
+      <h3>Dual Bluetooth</h3>
+      <p>Connect to two devices simultaneously. Switch between your laptop and phone without missing a beat.</p>
+    </div>
+    <div class="feat-card">
+      <span class="feat-icon">🎙️</span>
+      <h3>4-Mic System</h3>
+      <p>Four microphones capture your voice with precision even in noisy environments, making calls effortless.</p>
+    </div>
+  </div>
+</section>
+
+<!-- DETAILS / SPECS -->
+<section class="details" id="specs">
+  <div class="details-image reveal-left">
+    <img
+      src="https://assets2.jabra.com/6/b/f/6/6bf69e6dc6a6987c72e363e09b9c29eb211d2f1b_elite75t_titanium_03.png?w=600&h=600&auto=format"
+      alt="Jabra Elite 75t Detail View">
+  </div>
+
+  <div class="details-content reveal-right">
+    <p class="section-eyebrow">Full Specifications</p>
+    <h2 class="section-title" style="margin-bottom:0">Every detail,<em> considered.</em></h2>
+
+    <div class="spec-list">
+      <div class="spec-item">
+        <span class="spec-key">Earbud Battery</span>
+        <span class="spec-val">7.5 hours</span>
+      </div>
+      <div class="spec-item">
+        <span class="spec-key">Total with Case</span>
+        <span class="spec-val">28 hours</span>
+      </div>
+      <div class="spec-item">
+        <span class="spec-key">Noise Cancellation</span>
+        <span class="spec-val">Active (ANC)</span>
+      </div>
+      <div class="spec-item">
+        <span class="spec-key">Water Resistance</span>
+        <span class="spec-val">IP55</span>
+      </div>
+      <div class="spec-item">
+        <span class="spec-key">Connectivity</span>
+        <span class="spec-val">Bluetooth 5.0</span>
+      </div>
+      <div class="spec-item">
+        <span class="spec-key">Microphones</span>
+        <span class="spec-val">4-mic array</span>
+      </div>
+      <div class="spec-item">
+        <span class="spec-key">Multi-device</span>
+        <span class="spec-val">Dual connect</span>
+      </div>
+      <div class="spec-item">
+        <span class="spec-key">App Support</span>
+        <span class="spec-val">iOS &amp; Android</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- APP SECTION -->
+<section class="app-section reveal" id="app">
+  <div class="app-content">
+    <h2>Take control with Sound+</h2>
+    <p>
+      The Jabra Sound+ app transforms your earbuds into a fully personalised audio experience.
+      Tweak the equalizer, set find-my-earbuds alerts, and keep firmware always up to date.
+    </p>
+    <a
+      class="btn-primary"
+      href="https://www.jabra.com/software-and-services/jabra-sound-plus-app"
+      target="_blank" rel="noopener">
+      Download Free App ↗
+    </a>
+  </div>
+  <div class="app-wordmark">SOUND+</div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <div class="nav-logo">JABRA</div>
+  <span>© 2026 Jabra Elite 75t — All rights reserved</span>
+  <span>Crafted with precision</span>
+</footer>
+
+<script>
+/* ── CURSOR ── */
+const cur = document.getElementById('cursor');
+const ring = document.getElementById('cursorRing');
+let mx = 0, my = 0, rx = 0, ry = 0;
+
+document.addEventListener('mousemove', e => {
+  mx = e.clientX; my = e.clientY;
+  cur.style.left = mx + 'px';
+  cur.style.top  = my + 'px';
+});
+
+(function animRing() {
+  rx += (mx - rx) * 0.12;
+  ry += (my - ry) * 0.12;
+  ring.style.left = rx + 'px';
+  ring.style.top  = ry + 'px';
+  requestAnimationFrame(animRing);
+})();
+
+document.querySelectorAll('a, button').forEach(el => {
+  el.addEventListener('mouseenter', () => {
+    ring.style.width  = '56px';
+    ring.style.height = '56px';
+    ring.style.borderColor = 'var(--ember)';
+    cur.style.transform = 'translate(-50%,-50%) scale(0.3)';
+  });
+  el.addEventListener('mouseleave', () => {
+    ring.style.width  = '36px';
+    ring.style.height = '36px';
+    ring.style.borderColor = 'var(--fire)';
+    cur.style.transform = 'translate(-50%,-50%) scale(1)';
+  });
+});
+
+/* ── SCROLL PROGRESS ── */
+const bar = document.getElementById('progress');
+window.addEventListener('scroll', () => {
+  const pct = window.scrollY / (document.body.scrollHeight - window.innerHeight) * 100;
+  bar.style.width = pct + '%';
+});
+
+/* ── SCROLL REVEAL ── */
+const observer = new IntersectionObserver(entries => {
+  entries.forEach(e => {
+    if (e.isIntersecting) {
+      e.target.classList.add('visible');
+      observer.unobserve(e.target);
+    }
+  });
+}, { threshold: 0.12 });
+
+document.querySelectorAll('.reveal, .reveal-left, .reveal-right, .stagger-children')
+  .forEach(el => observer.observe(el));
+
+/* ── COUNT-UP STATS ── */
+function countUp(el, target, suffix, duration = 1400, isDecimal = false) {
+  const start = performance.now();
+  function tick(now) {
+    const elapsed = now - start;
+    const progress = Math.min(elapsed / duration, 1);
+    const eased = 1 - Math.pow(1 - progress, 3);
+    const val = isDecimal
+      ? (target * eased).toFixed(1)
+      : Math.round(target * eased);
+    el.textContent = val + suffix;
+    if (progress < 1) requestAnimationFrame(tick);
+  }
+  requestAnimationFrame(tick);
+}
+
+const statsObserver = new IntersectionObserver(entries => {
+  entries.forEach(e => {
+    if (!e.isIntersecting) return;
+    const nums = e.target.querySelectorAll('[data-count], [data-count-decimal]');
+    nums.forEach(n => {
+      if (n.dataset.count)
+        countUp(n, +n.dataset.count, n.dataset.suffix || '');
+      else if (n.dataset.countDecimal)
+        countUp(n, +n.dataset.countDecimal, n.dataset.suffix || '', 1400, true);
+    });
+    statsObserver.unobserve(e.target);
+  });
+}, { threshold: 0.3 });
+
+document.querySelectorAll('.stats-bar').forEach(el => statsObserver.observe(el));
+
+/* ── NAV ACTIVE STATE ── */
+const sections = document.querySelectorAll('section[id], div.stats-bar');
+const navLinks = document.querySelectorAll('nav a');
+window.addEventListener('scroll', () => {
+  let current = '';
+  sections.forEach(s => {
+    if (window.scrollY >= s.offsetTop - 120) current = s.id;
+  });
+  navLinks.forEach(a => {
+    a.style.color = a.getAttribute('href') === '#' + current
+      ? 'var(--fire)' : '';
+  });
+});
+</script>
+</body>
+</html>
